@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz mo</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
+            z-index: 2;
+            position: relative;
+        }
+
+        h1 {
+            color: #0ff;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .question {
+            font-size: 18px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: lighter;
+        }
+
+        .quiz-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .answer-input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #00ffcc;
+            border-radius: 5px;
+            outline: none;
+            color: #fff;
+            background: transparent;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .answer-input:focus {
+            border-color: #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .submit-button {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #00ffcc;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #00b399;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+        }
+
+        .feedback {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .feedback img {
+            width: 150px;
+            height: 150px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Another message another quiz syempre!</h1>
+        <p class="question">Kailan ang kaarawan ko?</p>
+
+        <form id="quizForm" class="quiz-form">
+            <input type="text" id="answer" class="answer-input" placeholder="Enter your answer here" required>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+        <p id="feedback" class="feedback"></p>
+    </div>
+
+    <script>
+        document.getElementById('quizForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+            const correctAnswer = 'ika 4 ng hunyo';
+            const feedbackElement = document.getElementById('feedback');
+
+            if (userAnswer === correctAnswer) {
+                window.location.href = "mot3congratulations.html";
+            } else {
+                feedbackElement.innerHTML = "Hay nako birthday ko nalang di mo pa alam??<br><img src='mali.png' alt='Wrong Answer'>";
+            }
+        });
+    </script>
+</body>
+</html>

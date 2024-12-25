@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors to Unlock Page</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        .intro-message {
+            font-size: 20px;
+            text-align: center;
+            color: #e4e4e4;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        
+ 
+        .game-container {
+            display: none;
+            text-align: center;
+        }
+        p{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intro-message" id="intro-message">
+        <p>Hi Mahal, before you can receive your message paghirapan mo muna<p>
+        <button id="start-game-button">Start Game</button>
+    </div>
+
+    <div class="game-container" id="game-container">
+        <h2>Play Rock, Paper, Scissors!</h2>
+        <p>Choose one: Rock, Paper, or Scissors</p>
+        
+        <div class="choices">
+            <button class="choice" id="rock">Rock</button>
+            <button class="choice" id="paper">Paper</button>
+            <button class="choice" id="scissors">Scissors</button>
+        </div>
+
+        <p id="feedback"></p>
+    </div>
+
+    <script>
+        const choices = ["rock", "paper", "scissors"];
+        const feedback = document.getElementById('feedback');
+        const introMessage = document.getElementById('intro-message');
+        const gameContainer = document.getElementById('game-container');
+        const startGameButton = document.getElementById('start-game-button');
+
+        function getComputerChoice() {
+            const randomIndex = Math.floor(Math.random() * 3);
+            return choices[randomIndex];
+        }
+
+        function determineWinner(userChoice, computerChoice) {
+            if (userChoice === computerChoice) {
+                return "tie";
+            }
+            if (
+                (userChoice === "rock" && computerChoice === "scissors") ||
+                (userChoice === "paper" && computerChoice === "rock") ||
+                (userChoice === "scissors" && computerChoice === "paper")
+            ) {
+                return "win";
+            }
+            return "lose";
+        }
+
+        function handleChoice(userChoice) {
+            const computerChoice = getComputerChoice();
+            const result = determineWinner(userChoice, computerChoice);
+
+            if (result === "win") {
+                setTimeout(function() {
+                    window.location.href = 'mot2congratulations.html';  // Redirect to mot2congratulations.html
+                }, 1000);  
+            } else if (result === "lose") {
+                feedback.textContent = `You chose ${userChoice}, computer chose ${computerChoice}. You lose! Try again.`;
+                feedback.style.color = "red";
+            } else if (result === "tie") {
+                feedback.textContent = `You chose ${userChoice}, computer chose ${computerChoice}. It's a tie! Try again.`;
+                feedback.style.color = "orange";
+            }
+        }
+
+        startGameButton.addEventListener("click", function() {
+            introMessage.style.display = "none";  
+            gameContainer.style.display = "block";  
+        });
+
+        document.getElementById("rock").addEventListener("click", function() {
+            handleChoice("rock");
+        });
+
+        document.getElementById("paper").addEventListener("click", function() {
+            handleChoice("paper");
+        });
+
+        document.getElementById("scissors").addEventListener("click", function() {
+            handleChoice("scissors");
+        });
+    </script>
+</body>
+</html>

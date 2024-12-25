@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .game-container {
+            text-align: center;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 36px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+        }
+
+        .cell:hover {
+            background-color: #eaeaea;
+        }
+
+        #message {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #start-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #start-button:hover {
+            background-color: #45a049;
+        }
+
+        #pre-game-message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Tic Tac Toe</h1>
+        
+        <p id="pre-game-message">Day 3 naman oh!??! Mag tic-tac-toe ka galing mo ah?</p>
+        
+        <button id="start-button">Start Game</button>
+
+        <div class="board" id="board">
+            <div class="cell" id="cell0"></div>
+            <div class="cell" id="cell1"></div>
+            <div class="cell" id="cell2"></div>
+            <div class="cell" id="cell3"></div>
+            <div class="cell" id="cell4"></div>
+            <div class="cell" id="cell5"></div>
+            <div class="cell" id="cell6"></div>
+            <div class="cell" id="cell7"></div>
+            <div class="cell" id="cell8"></div>
+        </div>
+        
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const cells = Array.from(document.querySelectorAll('.cell'));
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameOver = false;
+
+        const checkWin = () => {
+            const winningCombinations = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (const combination of winningCombinations) {
+                const [a, b, c] = combination;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return board[a];
+                }
+            }
+            return null;
+        };
+
+        const checkDraw = () => {
+            return board.every(cell => cell !== '');
+        };
+
+        const makeMove = (index) => {
+            if (gameOver || board[index]) return;
+
+            board[index] = currentPlayer;
+            cells[index].textContent = currentPlayer;
+
+            const winner = checkWin();
+            if (winner) {
+                document.getElementById('message').textContent = `${winner} wins! Redirecting...`;
+                gameOver = true;
+                if (winner === 'X') {
+                    setTimeout(() => {
+                        window.location.href = 'mot4congratulations.html';
+                    }, 1000);
+                } else {
+                    setTimeout(restartGame, 1000);
+                }
+                return;
+            }
+
+            if (checkDraw()) {
+                document.getElementById('message').textContent = "It's a draw! Restarting...";
+                setTimeout(restartGame, 1000);
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+
+            if (currentPlayer === 'O') {
+                computerMove();
+            }
+        };
+
+        const minimax = (board, depth, isMaximizingPlayer) => {
+            const winner = checkWin();
+            if (winner === 'X') return -10 + depth;
+            if (winner === 'O') return 10 - depth;
+            if (checkDraw()) return 0;
+
+            if (isMaximizingPlayer) {
+                let best = -Infinity;
+                for (let i = 0; i < board.length; i++) {
+                    if (!board[i]) {
+                        board[i] = 'O';
+                        best = Math.max(best, minimax(board, depth + 1, false));
+                        board[i] = '';
+                    }
+                }
+                return best;
+            } else {
+                let best = Infinity;
+                for (let i = 0; i < board.length; i++) {
+                    if (!board[i]) {
+                        board[i] = 'X';
+                        best = Math.min(best, minimax(board, depth + 1, true));
+                        board[i] = '';
+                    }
+                }
+                return best;
+            }
+        };
+
+        const computerMove = () => {
+            if (gameOver) return;
+
+            let bestMove = -1;
+            let bestValue = -Infinity;
+
+            if (Math.random() < 0.25) {
+                const availableMoves = board.map((cell, index) => !cell ? index : null).filter(index => index !== null);
+                bestMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            } else {
+                for (let i = 0; i < board.length; i++) {
+                    if (!board[i]) {
+                        board[i] = 'O';
+                        let moveValue = minimax(board, 0, false);
+                        board[i] = '';
+                        if (moveValue > bestValue) {
+                            bestMove = i;
+                            bestValue = moveValue;
+                        }
+                    }
+                }
+            }
+
+            setTimeout(() => {
+                makeMove(bestMove);
+            }, 500);
+        };
+
+        const restartGame = () => {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameOver = false;
+            document.getElementById('message').textContent = '';
+            cells.forEach(cell => cell.textContent = '');
+        };
+
+        document.getElementById('start-button').addEventListener('click', () => {
+            document.getElementById('pre-game-message').style.display = 'none';
+            document.getElementById('start-button').style.display = 'none';
+            document.getElementById('board').style.display = 'grid';
+        });
+
+        cells.forEach((cell, index) => {
+            cell.addEventListener('click', () => makeMove(index));
+        });
+    </script>
+</body>
+</html>

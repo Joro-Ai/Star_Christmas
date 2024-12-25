@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Monthsary and Merry Christmas</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="content-container">
+        <img src="FORDA.jpg" alt="Small image" class="image-left" />
+
+        <h1>₊✩‧₊˚౨ৎ˚₊✩‧₊ Hi Mahal ko ₊✩‧₊˚౨ৎ˚₊✩‧₊</h1>
+        <h2>We've been together for about:</h2>
+        <div id="timer" class="timer-display"></div>
+
+        <div class="link-container">
+            <a href="mot2.html" class="link">Dec 21</a>
+            <a href="mot3.html" class="link">Dec 22</a>
+            <a href="mot4.html" class="link">Dec 23</a>
+            <a href="mot5.html" class="link">Dec 24</a>
+            <a href="mot6.html" class="link">Dec 25</a>
+        </div>
+    </div>
+
+    <script>
+        const startDate = new Date('2023-08-22T00:00:00'); 
+
+function updateTimer() {
+    const currentDate = new Date();
+    const timeDifference = currentDate - startDate;
+
+    
+    const years = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 365.25));
+    const remainingDaysAfterYears = timeDifference - (years * 1000 * 60 * 60 * 24 * 365.25);
+    
+    
+    const months = Math.floor(remainingDaysAfterYears / (1000 * 60 * 60 * 24 * 30.44));  
+
+    const remainingDaysAfterMonths = remainingDaysAfterYears - (months * 1000 * 60 * 60 * 24 * 30.44);
+    
+    const days = Math.floor(remainingDaysAfterMonths / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((remainingDaysAfterMonths % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((remainingDaysAfterMonths % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((remainingDaysAfterMonths % (1000 * 60)) / 1000);
+
+    const timerDisplay = document.getElementById('timer');
+    timerDisplay.textContent = `${years} Yy: ${months} Mm: ${days} Dd: ${hours} H: ${minutes} M: ${seconds} S`;
+}
+
+setInterval(updateTimer, 1000); 
+
+        
+        function createStars(numStars) {
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 3 + 1; 
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                const top = Math.random() * window.innerHeight;
+                const left = Math.random() * window.innerWidth;
+
+                star.style.top = `${top}px`;
+                star.style.left = `${left}px`;
+
+                const animationDuration = Math.random() * 10 + 15;
+                const animationDelay = Math.random() * 2;
+                const animationName = `moveStar${i}`;
+
+                const styleSheet = document.styleSheets[0];
+                const keyframes = `
+                    @keyframes ${animationName} {
+                        0% { opacity: 0; top: ${top}px; left: ${left}px; }
+                        100% { opacity: 1; top: ${Math.random() * window.innerHeight}px; left: ${Math.random() * window.innerWidth}px; }
+                    }
+                `;
+                styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+
+                star.style.animation = `${animationName} ${animationDuration}s linear ${animationDelay}s infinite`;
+
+                document.body.appendChild(star);
+            }
+        }
+
+        createStars(200);
+    </script>
+</body>
+</html>

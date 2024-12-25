@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>December 24, 2024</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+        }
+        .envelope {
+            position: relative;
+            width: 80%;
+            max-width: 600px;
+            height: auto;
+            margin: 50px auto;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            overflow-y: auto;
+            z-index: 1;
+        }
+
+        .envelope-content {
+            position: relative;
+            z-index: 1;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .return-text {
+            font-size: 10px;
+            font-weight: bold;
+            color: #ffffff;
+            text-align: center;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: cursive;
+            margin-top: 20px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.9);
+            transition: transform 0.3s, text-shadow 0.3s;
+            z-index: 2;
+        }
+
+        .return-text:hover {
+            transform: scale(1.1);
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.9), 0 0 45px rgba(0, 0, 0, 1);
+        }
+
+        .side-images {
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .side-images img {
+            opacity: 0;
+            transition: opacity 1s ease-out, right 1s ease-out;
+        }
+
+        .left-container {
+            top: 20px;
+            left: 0;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .left-img {
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            position: absolute;
+            top: 20px;
+            left: 100px;
+            width: 200px;
+            height: 150px;
+        }
+
+        .right-img {
+            position: absolute;
+            right: -500px;
+            bottom: 30px;
+            object-fit: fill;
+            opacity: 0;
+            transition: opacity 1s ease-out, right 1s ease-out;
+            width: 270px;
+            height: 150px;
+        }
+
+        .show-images .left-container img {
+            opacity: 1;
+            transition-delay: 2s;
+        }
+
+        .show-images .right-img {
+            opacity: 1;
+            right: 20px;
+            transition-delay: 4s;
+        }
+
+        @media (max-width: 768px) {
+            .envelope {
+                width: 90%;
+                padding: 20px;
+            }
+
+            .return-text {
+                font-size: 18px;
+                margin-top: 15px;
+            }
+
+            .side-images {
+                padding: 0 10px;
+            }
+
+            .side-images img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .right-img {
+                bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelope {
+                width: 95%;
+                padding: 15px;
+            }
+
+            .return-text {
+                font-size: 16px;
+                margin-top: 10px;
+            }
+
+            .side-images img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .left-container, .right-img {
+                position: relative;
+                left: auto;
+                top: auto;
+            }
+        }
+
+        .bottom-link-container {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        h2 {
+            color: black;
+            font-weight: bolder;
+            font-family: monospace;
+        }
+
+        p {
+            font-weight: lighter;
+            font-size: 15px;
+            font-family: monospace;
+        }
+
+    </style>
+</head>
+<body>
+
+    <audio id="myAudio">
+        <source src="4u.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="envelope">
+        <div class="envelope-content">
+            <h2>To the one who holds my heart, Sofia,</h2>
+            <p>Happy Christmas Eve, Mahal!</p>
+            <p>As the year draws to a close, I am here, renewing all my promises to you, my mahal. I vow to give my all, to keep each promise, whether grand or humble it may seem, because personally I know you deserve nothing less. I will always strive to be better for you, to grow in every way, and hold each word I’ve spoken close to my heart. For you, my mahal, I would go through any journey. There is no length I wouldn't go, for my love for you knows no bounds. </p>
+            <p class="qt">And I am sorry for all my shortcomings,</p>
+            <p class="qt">For there may be times when I am not there,</p>
+            <p class="qt">To stand by you in your sorrow,</p>
+            <p class="qt">To hold you close in your triumphs,</p>
+            <p class="qt">And for the moments when I fall short,</p>
+            <p class="qt">Lacking in the qualities you deserve</p>
+            <p>But I'll always be here for you, Loving and caring for you with utmost compassion and sincerity. I will never leave you alone in this dark and cruel world. My love will always be the light that makes everything shine.</p>
+            <p>I love you always Sofia.</p>
+        </div>
+    </div>
+
+    <div class="side-images">
+        <div class="left-container">
+            <img src="leftimg4.png" class="left-img" alt="Left Image">
+        </div>
+    </div>
+
+    <div class="bottom-link-container">
+        <a href="index.html" class="return-text">Back to homepage</a>
+        <img src="rightimg4.png" class="right-img" alt="Right Image">
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.querySelector('.side-images').classList.add('show-images');
+            document.querySelector('.bottom-link-container').classList.add('show-images');
+        };
+
+        function createStars(numStars) {
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                const top = Math.random() * window.innerHeight;
+                const left = Math.random() * window.innerWidth;
+
+                star.style.top = `${top}px`;
+                star.style.left = `${left}px`;
+
+                const animationDuration = Math.random() * 10 + 15;
+                const animationDelay = Math.random() * 2;
+                const animationName = `moveStar${i}`;
+
+                const styleSheet = document.styleSheets[0];
+                const keyframes = `
+                    @keyframes ${animationName} {
+                        0% { opacity: 0; top: ${top}px; left: ${left}px; }
+                        100% { opacity: 1; top: ${Math.random() * window.innerHeight}px; left: ${Math.random() * window.innerWidth}px; }
+                    }
+                `;
+                styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+
+                star.style.animation = `${animationName} ${animationDuration}s linear ${animationDelay}s infinite`;
+
+                document.body.appendChild(star);
+            }
+        }
+
+        createStars(400);
+
+        window.onload = function() {
+            var audio = document.getElementById("myAudio");
+            audio.play();
+        };
+    </script>
+</body>
+</html>

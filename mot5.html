@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laro laro laro</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
+    canvas {
+      border: 1px solid white;
+    }
+    #pregame-message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="pregame-message">
+    Score up until ten to unlock the message.<br>Goodluck mahal ko!
+  </div>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    const grid = 20;
+    let snake = [{ x: 100, y: 100 }];
+    let direction = { x: grid, y: 0 };
+    let apple = { x: 200, y: 200 };
+    let score = 0;
+    let gameInterval;
+    let gameStarted = false;
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    function update() {
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+      if (head.x === apple.x && head.y === apple.y) {
+        apple = generateApple();
+        score++;
+      } else {
+        snake.pop();
+      }
+
+      snake.unshift(head);
+
+      if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || collisionWithSelf()) {
+        resetGame();
+      }
+
+      if (score >= 10) {
+        window.location.href = 'mot5congratulations.html';
+      }
+
+      draw();
+    }
+
+    function collisionWithSelf() {
+      return snake.slice(1).some(segment => segment.x === snake[0].x && segment.y === snake[0].y);
+    }
+
+    function generateApple() {
+      return {
+        x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
+        y: Math.floor(Math.random() * (canvas.height / grid)) * grid
+      };
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = 'green';
+      snake.forEach(segment => ctx.fillRect(segment.x, segment.y, grid - 1, grid - 1));
+
+      ctx.fillStyle = 'red';
+      ctx.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+
+      ctx.fillStyle = 'white';
+      ctx.font = '20px Arial';
+      ctx.fillText('Score: ' + score, 10, 20);
+    }
+
+    function resetGame() {
+      clearInterval(gameInterval);
+      snake = [{ x: 100, y: 100 }];
+      direction = { x: grid, y: 0 };
+      apple = generateApple();
+      score = 0;
+      gameInterval = setInterval(update, 200);
+    }
+
+    function changeDirection(event) {
+      if (!gameStarted) return;
+
+      switch (event.keyCode) {
+        case 37:
+          if (direction.x === 0) direction = { x: -grid, y: 0 };
+          break;
+        case 38:
+          if (direction.y === 0) direction = { x: 0, y: -grid };
+          break;
+        case 39:
+          if (direction.x === 0) direction = { x: grid, y: 0 };
+          break;
+        case 40:
+          if (direction.y === 0) direction = { x: 0, y: grid };
+          break;
+      }
+    }
+
+    function changeDirectionTouch(e) {
+      if (!gameStarted) return;
+
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX > 0 && direction.x === 0) {
+          direction = { x: grid, y: 0 };
+        } else if (deltaX < 0 && direction.x === 0) {
+          direction = { x: -grid, y: 0 };
+        }
+      } else {
+        if (deltaY > 0 && direction.y === 0) {
+          direction = { x: 0, y: grid };
+        } else if (deltaY < 0 && direction.y === 0) {
+          direction = { x: 0, y: -grid };
+        }
+      }
+
+      touchStartX = touchEndX;
+      touchStartY = touchEndY;
+    }
+
+    function startGame() {
+      if (gameStarted) return;
+
+      document.getElementById('pregame-message').style.display = 'none';
+      gameStarted = true;
+      document.addEventListener('keydown', changeDirection);
+      document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].clientX;
+        touchStartY = e.changedTouches[0].clientY;
+      });
+      document.addEventListener('touchmove', changeDirectionTouch);
+      resetGame();
+    }
+
+    startGame();
+
+    document.addEventListener('click', startGame);
+    document.addEventListener('keydown', startGame);
+
+  </script>
+</body>
+</html>
